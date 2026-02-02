@@ -1,0 +1,80 @@
+# ================================
+# Python
+# ================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# ================================
+# Environment variables
+# ================================
+.env
+.env.*
+*.env
+
+# ================================
+# OS / Editor files
+# ================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ================================
+# Logs & runtime artifacts
+# ================================
+logs/
+*.log
+
+# ================================
+# Data (IMPORTANT)
+# ================================
+# Raw and processed knowledge should not be committed
+data/raw/
+data/processed/
+data/embeddings/
+
+# ================================
+# Model / vector artifacts
+# ================================
+*.faiss
+*.index
+*.bin
+*.pkl
+
+# ================================
+# Jupyter / experiments (if any)
+# ================================
+.ipynb_checkpoints/
+notebooks/
+
+# ================================
+# Test / cache
+# ================================
+.pytest_cache/
+.mypy_cache/
+
+# ================================
+# Build / distribution
+# ================================
+build/
+dist/
+*.egg-info/
+
+# ================================
+# Temporary files
+# ================================
+tmp/
+temp/
+
