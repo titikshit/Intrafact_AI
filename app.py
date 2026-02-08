@@ -1,10 +1,13 @@
 import sys
 from intrafact.ingestion.file_ingestor import ingestor
 from intrafact.normalization.normalizer import TextNormalizer
+from intrafact.processing.chunker import TextChunker 
 
 def run_pipeline():
     print("-----Starting Pipeline------")
 
+
+    #Step 1 Ingestion
     print("-----Starting Ingestion------")
 
     raw_data = ingestor()
@@ -15,29 +18,37 @@ def run_pipeline():
     
     print(f"Found {len(raw_data)} files in raw data")
 
+    #Step 2 normalization
     print("-----Starting Normalisation-----")
     
     norm = TextNormalizer()
+    chunker = TextChunker()
 
     for file in raw_data:
         original_file_name = file["metadata"]["file_name"]
         print(f"Normalising {original_file_name}")
 
         try:
-            processed_data = norm.normalize(
-                file["raw_text"], 
-                file["metadata"]
-                )
+            normalized_data = norm.normalize(
+                file['raw_text'], 
+                file['metadata']
+            )
             
-            save_path = norm.save_object(
-                processed_data, 
-                original_file_name
+            #Step 3 chunking
+            chunks = chunker.process_chunks(normalized_data)
+            print(f"   ↳ Split into {len(chunks)} chunks.")
+
+            for i, chunk_obj in enumerate(chunks):
+                save_path = norm.save_object(
+                    chunk_obj, 
+                    original_file_name
                 )
+                print(f"      [Chunk {i+1}] Saved to: {save_path.name}")
             
-            print(f"Done! saved to {save_path.name}")
+            print("   ✅ Processing Complete!")
 
         except Exception as e:
-            print(f"Error {e}")
+            print(f"❌ Error processing {original_file_name}: {e}")
 
     print("-----Pipeline Complete------")
 
