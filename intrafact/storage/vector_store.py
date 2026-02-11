@@ -34,5 +34,13 @@ class VectorDB:
      
     def count(self):
             return self.collection.count()
+    
+    def search(self, query_vector: List[float], limit: int = 5):
+
+        results = self.collection.query(
+            query_embeddings=[query_vector],
+            n_results=limit
+        )
+        return results
         
     
