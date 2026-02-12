@@ -6,6 +6,8 @@ from intrafact.processing.embedder import TextEmbedder
 from intrafact.storage.metadata_store import MetadataStore
 from intrafact.storage.vector_store import VectorDB
 import uuid
+from intrafact.reasoning.rag_pipeline import RAGPipeline
+from dotenv import load_dotenv
 
 def run_pipeline():
     print("-----Starting Pipeline------")
@@ -74,8 +76,39 @@ def run_pipeline():
         except Exception as e:
             print(f"❌ Error processing {original_file_name}: {e}")
 
-    print(f"\n----- 🎉 Pipeline Finished. Processed {processed_count} new files. -----")
+    print(f"\n----- Processed {processed_count} new files. -----")
+
+def start_chat_session():
+        print("---- Chat Mode (type 'exit' to quit) ----")
+        try:
+            rag = RAGPipeline()
+
+        except Exception as e:
+            print("Error initialising AI")
+            return
+        
+        while True:
+            try:
+                query = input("\nUser: ").strip()
+                if query.lower() in ['exit', 'quit']:
+                    print("Goodbye")
+                    break
+                if not query:
+                    continue
+                
+                answer = rag.answer_question(query)
+                print(f"\nAI: {answer}")
+
+            except KeyboardInterrupt:
+                print("Goodbye")
+                break
+            except Exception as e:
+                print(f"Error: {e}")
 
 if __name__== "__main__":
+    print("==========================================")
+    print("   INTRAFACT AI - PERSONAL KNOWLEDGE BASE  ")
+    print("==========================================")
     run_pipeline()
+    start_chat_session()
            
